@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react";
 import axios from 'axios';
+import RestaurantCollectionItem from '../../components/RestCollectionItem/RestCollectionItem'
 
 
 
@@ -36,7 +37,10 @@ const RestaurantRating =(props)=> {
                 // setCollections(collectionList);
 
                 //Code 2: Conver response data into HTML & save HTML into state collections
+                // setCollections([{collection: {collection_id: 1, res_count: 30}},{collection: {collection_id: 2, res_count: 40}}])
+
                 setCollections(response.data.collections)
+
 
             }
         })
@@ -45,15 +49,17 @@ const RestaurantRating =(props)=> {
 
 
 
+
     return (
         <div>
             <h2>RestaurantRating</h2>
             {console.log(collections[0])}
-            {collections[0].collection.collection_id}
 
-            {/* {   collections.map(item => item.collection.collection_id) } */}
+            {/* {collections[0]} */}
 
-
+            {/* {collections.map(collection =>(
+                <RestaurantCollectionItem collection={collection} />
+            ))} */}
         </div>
     )
 }
