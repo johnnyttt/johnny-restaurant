@@ -11,13 +11,13 @@ import Container from '@material-ui/core/Container';
  const Layout =props=>{
     return (
         <React.Fragment>
-            <Container maxWidth="mw" style={{ backgroundColor: '#cfe8fc', height: '20vh', textAlign: 'center' }} >
+            <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '10vh', textAlign: 'center' }} >
                 <Header />
             </Container>
-            <Container maxWidth="lg" style={{ backgroundColor: '#cfe8fc', height: '100vh' }} >
+            <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', }} >
                     <main>{props.children}</main>
             </Container>
-            <Container maxWidth="mw" style={{ backgroundColor: '#cfe8fc', height: '20vh', textAlign: 'center' }} >
+            <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '20vh', textAlign: 'center', marginTop:'20px' }} >
                 <Footer />
             </Container>
         </React.Fragment>

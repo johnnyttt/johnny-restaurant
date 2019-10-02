@@ -1,11 +1,16 @@
 import React, { useState,useEffect } from "react";
 import axios from 'axios';
 import RestaurantCollectionItem from '../../components/RestCollectionItem/RestCollectionItem'
+import styled from 'styled-components';
 
+const FlexContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
 
+`;
 
 const RestaurantRating =(props)=> {
-    const [collections, setCollections] = useState('');
+    const [collections, setCollections] = useState([]);
 
     useEffect(() =>{
         let url = 'https://developers.zomato.com/api/v2.1/collections?city_id=259';
@@ -44,6 +49,7 @@ const RestaurantRating =(props)=> {
 
             }
         })
+        .catch(error =>{console.log(error)})
 
     },[])
 
@@ -53,13 +59,12 @@ const RestaurantRating =(props)=> {
     return (
         <div>
             <h2>RestaurantRating</h2>
-            {console.log(collections[0])}
-
             {/* {collections[0]} */}
-
-            {/* {collections.map(collection =>(
-                <RestaurantCollectionItem collection={collection} />
-            ))} */}
+            <FlexContainer >
+                {collections.map(collection =>(
+                    <RestaurantCollectionItem key={collection.collection.collection_id} collection={collection.collection} />
+                ))}
+            </FlexContainer>
         </div>
     )
 }
