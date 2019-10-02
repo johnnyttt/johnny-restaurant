@@ -1,20 +1,24 @@
 import * as actionTypes from '../actions/actionTypes';
 const initialStates ={
-    inWishList:false
+    wishList: []
 };
 
 const editWishList = (state = initialStates, action)=>{
 
     switch(action.type){
         case actionTypes.addToWish:
+            const newWishListItem = {
+                 id: action.collection_id,
+                 inWishList:true
+            }
             return{
                 ...state,
-                inWishList:true
+                wishList:state.wishList.concat(newWishListItem)
             }
         case actionTypes.removeFromWish:
             return{
                 ...state,
-                inWishList:false
+                wishList:state.wishList.filter(item => item.collection_id!==action.collection_id)
             }
     }
     return state;

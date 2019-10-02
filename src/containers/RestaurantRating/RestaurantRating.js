@@ -3,6 +3,10 @@ import axios from 'axios';
 import RestaurantCollectionItem from '../../components/RestCollectionItem/RestCollectionItem'
 import styled from 'styled-components';
 
+import {connect} from 'react-redux';
+import * as actionTypes from '../../store/actions/actionTypes'
+
+
 const FlexContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -54,21 +58,48 @@ const RestaurantRating =(props)=> {
     },[])
 
 
-
-
     return (
         <div>
             <h2>RestaurantRating</h2>
             {/* {collections[0]} */}
             <FlexContainer >
-                {collections.map(collection =>(
-                    <RestaurantCollectionItem key={collection.collection.collection_id} collection={collection.collection} />
+                {collections.map(item =>(
+                    <RestaurantCollectionItem 
+                        onAddToWish={()=>props.onAddToWish(item.collection.collection_id)} 
+                        onRemoveFromWish={()=>props.onRemoveFromWish(item.collection.collection_id)}
+                        key={item.collection.collection_id} 
+                        inWishList={()=>{
+                            if(props.wishList[item.collection.collection_id] === undefined){
+                                return false;
+                            }else{
+                                return props.wishList[item.collection.collection_id].inWishList
+                            }
+                        }}
+                        collection={item.collection}
+                    />
                 ))}
             </FlexContainer>
         </div>
     )
 }
 
-export default RestaurantRating;
+
+const mapStatesToProps = state =>{
+    return {
+        wishList : state.edit.wishList,
+        display : state.display.wishList
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onAddToWish: (id)=>dispatch({type: actionTypes.addToWish, collection_id:id}),
+        onRemoveFromWish: (id) =>dispatch({type:actionTypes.removeFromWish, collection_id:id}),
+        onDisplayWishList: () =>dispatch({type: actionTypes.displayWishList})
+    }
+
+}
+
+export default connect(mapStatesToProps, mapDispatchToProps)(RestaurantRating);
 
 
