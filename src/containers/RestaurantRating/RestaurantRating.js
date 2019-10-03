@@ -14,8 +14,8 @@ const FlexContainer = styled.div`
 `;
 
 const RestaurantRating =(props)=> {
-    const [collections, setCollections] = useState([]);
-
+    // const [wishList, setWishList] = useState([]);
+const pr = props;
     useEffect(() =>{
         let url = 'https://developers.zomato.com/api/v2.1/collections?city_id=259';
         let options = {
@@ -48,22 +48,21 @@ const RestaurantRating =(props)=> {
                 //Code 2: Conver response data into HTML & save HTML into state collections
                 // setCollections([{collection: {collection_id: 1, res_count: 30}},{collection: {collection_id: 2, res_count: 40}}])
 
-                setCollections(response.data.collections)
+              // setWishList(response.data.collections)
 
-
+              pr.initWishList(response.data.collections);
             }
         })
         .catch(error =>{console.log(error)})
 
     },[])
-
-
+    
     return (
         <div>
             <h2>RestaurantRating</h2>
             {/* {collections[0]} */}
             <FlexContainer >
-                {collections.map(item =>(
+          {pr.wishList && pr.wishList.map(item =>(
                     <RestaurantCollectionItem 
                         onAddToWish={()=>props.onAddToWish(item.collection.collection_id)} 
                         onRemoveFromWish={()=>props.onRemoveFromWish(item.collection.collection_id)}
@@ -95,7 +94,8 @@ const mapDispatchToProps = dispatch =>{
     return {
         onAddToWish: (id)=>dispatch({type: actionTypes.addToWish, collection_id:id}),
         onRemoveFromWish: (id) =>dispatch({type:actionTypes.removeFromWish, collection_id:id}),
-        onDisplayWishList: () =>dispatch({type: actionTypes.displayWishList})
+        onDisplayWishList: () =>dispatch({type: actionTypes.displayWishList}),
+        initWishList: (wishList) => dispatch({ type: actionTypes.initWishList, wishList: wishList })
     }
 
 }
