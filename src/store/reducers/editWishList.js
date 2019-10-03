@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 const initialStates = {
+  collectionList:[],
   wishList: []
 };
 
@@ -7,17 +8,11 @@ const editWishList = (state = initialStates, action) => {
 
   switch (action.type) {
     case actionTypes.addToWish:
-      console.log('collection' + action.collection_id);
+      console.log('add collection ' + action.collection_id);
       const newWishListItem = {
         collection: {
           collection_id: action.collection_id,
-          inWishList: true,
-          description: 'test',
-          image_url: 'image_url',
-          res_count: 0,
-          share_url: 'share_url',
-          title: 'title',
-          url: 'url'
+          inWishList: true
         }
       }
       const newList = state.wishList.concat(newWishListItem);
@@ -27,19 +22,18 @@ const editWishList = (state = initialStates, action) => {
       }
     case actionTypes.removeFromWish:
       const remainingItems = state.wishList.filter(item => item.collection.collection_id !== action.collection_id);
-      console.log(remainingItems);
-      console.log(state.wishList)
+      console.log('wish list remaining' + remainingItems);
       return {
         ...state,
         wishList: [...remainingItems]
       }
-    case actionTypes.initWishList:
-      console.log('init');
+    case actionTypes.initCollectionList:
+      console.log('init new collection');
 
-      console.log(action.wishList);
+      console.log(action.collectionList);
       return {
         ...state,
-        wishList: action.wishList
+        collectionList: action.collectionList
       }
   }
 

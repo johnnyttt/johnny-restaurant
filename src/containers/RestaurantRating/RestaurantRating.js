@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from 'axios';
 import RestaurantCollectionItem from '../../components/RestCollectionItem/RestCollectionItem'
 import styled from 'styled-components';
@@ -15,7 +15,7 @@ const FlexContainer = styled.div`
 
 const RestaurantRating =(props)=> {
     // const [wishList, setWishList] = useState([]);
-const pr = props;
+
     useEffect(() =>{
         let url = 'https://developers.zomato.com/api/v2.1/collections?city_id=259';
         let options = {
@@ -50,32 +50,35 @@ const pr = props;
 
               // setWishList(response.data.collections)
 
-              pr.initWishList(response.data.collections);
+              props.initCollectionList(response.data.collections);
             }
         })
         .catch(error =>{console.log(error)})
 
     },[])
+
     
     return (
         <div>
             <h2>RestaurantRating</h2>
             {/* {collections[0]} */}
             <FlexContainer >
-          {pr.wishList && pr.wishList.map(item =>(
+                {props.collectionList && props.collectionList.map(item =>(
                     <RestaurantCollectionItem 
                         onAddToWish={()=>props.onAddToWish(item.collection.collection_id)} 
                         onRemoveFromWish={()=>props.onRemoveFromWish(item.collection.collection_id)}
+                        
                         key={item.collection.collection_id} 
                         inWishList={()=>{
                             if(props.wishList[item.collection.collection_id] === undefined){
                                 return false;
                             }else{
-                                return props.wishList[item.collection.collection_id].inWishList
+                                return props.wishList[item.collection.collection_id].inWishList;
                             }
                         }}
                         collection={item.collection}
                     />
+              
                 ))}
             </FlexContainer>
         </div>
@@ -85,6 +88,7 @@ const pr = props;
 
 const mapStatesToProps = state =>{
     return {
+        collectionList : state.edit.collectionList,
         wishList : state.edit.wishList,
         display : state.display.wishList
     }
@@ -95,7 +99,7 @@ const mapDispatchToProps = dispatch =>{
         onAddToWish: (id)=>dispatch({type: actionTypes.addToWish, collection_id:id}),
         onRemoveFromWish: (id) =>dispatch({type:actionTypes.removeFromWish, collection_id:id}),
         onDisplayWishList: () =>dispatch({type: actionTypes.displayWishList}),
-        initWishList: (wishList) => dispatch({ type: actionTypes.initWishList, wishList: wishList })
+        initCollectionList: (collectionList) => dispatch({ type: actionTypes.initCollectionList, collectionList: collectionList })
     }
 
 }

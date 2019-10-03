@@ -5,7 +5,6 @@ const CollectionBox = styled.ul`
     max-width:28%;
 `;
 
-
 const RestCollectionItem = (props) => {
     const {
         collection_id, 
@@ -23,7 +22,7 @@ const RestCollectionItem = (props) => {
                 <li>collection Title:{title}</li>
                 <li>Restaurant Count:{res_count}</li>
                 <li>Description:{description}</li>
-                {props.inWishList ? <button onClick={props.onRemoveFromWish}>Remove Wishlist</button> : <button onClick={props.onAddToWish}>Add Wishlist</button> }
+                {props.inWishList() ? <button onClick={props.onRemoveFromWish}>Remove Wishlist</button> : <button onClick={props.onAddToWish}>Add Wishlist</button> }
                 {/* <li><img src={image_url}  style={{maxWidth:"90%"}}  /></li> */}
             </CollectionBox>
     )
